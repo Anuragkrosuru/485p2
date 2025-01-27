@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# insta485db
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+# Define database and file paths
+DATABASE_PATH="var/insta485.sqlite3"
+UPLOADS_DIR="var/uploads"
+SCHEMA_PATH="sql/schema.sql"
+DATA_PATH="sql/data.sql"
+UPLOADS_SOURCE="sql/uploads"
+
+# Sanity check command line options
+usage() {
+    echo "Usage: $0 (create|destroy|reset|dump)"
+}
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 1
+fi
+
+# Create function
+create_db() {
+    # Check if database already exists
+    if [ -f "$DATABASE_PATH" ]; then
+        echo "Error: database already exists"
+        exit 1
+    fi
+
+    # Create uploads directory
+    mkdir -p "$UPLOADS_DIR"
+
+    # Create and populate database
+    sqlite3 "$DATABASE_PATH" < "$SCHEMA_PATH"
+    sqlite3 "$DATABASE_PATH" < "$DATA_PATH"
+
+    # Copy upload files
+    cp "$UPLOADS_SOURCE"/* "$UPLOADS_DIR/"
+}
+
+# Destroy function
+destroy_db() {
+    rm -rf "$DATABASE_PATH" "$UPLOADS_DIR"
+}
+
+# Dump function
+dump_db() {
+    # Dump all tables in a readable format
+    for table in comments following likes posts users; do
+        echo "+ sqlite3 -batch -line $DATABASE_PATH 'SELECT * FROM $table'"
+        sqlite3 -batch -line "$DATABASE_PATH" "SELECT * FROM $table"
+    done
+}
+
+# Parse argument. $1 is the first argument
+case $1 in
+    "create")
+        create_db
+        ;;
+    "destroy")
+        destroy_db
+        ;;
+    "reset")
+        destroy_db
+        create_db
+        ;;
+    "dump")
+        dump_db
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac

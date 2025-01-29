@@ -9,7 +9,8 @@ fi
 if [ -f "var/insta485.sqlite3" ]; then
     export FLASK_APP=insta485
     export FLASK_ENV=development
-    flask run --host=0.0.0.0 --port=8000 --debug
+    #flask run --host=0.0.0.0 --port=8000 --debug
+    flask run --host=127.0.0.1 --port=8000
 else
     echo "Error: can't find database var/insta485.sqlite3"
     echo "Try: ./bin/insta485db create"

@@ -8,7 +8,6 @@ APPLICATION_ROOT = '/'
 # Secret key for encrypting cookies
 SECRET_KEY = b'\x8a\x03\nk1 "\xebvV\xa2\xb5L\x06b\x9f\xaa\x99A hy^\x0c'
 SESSION_COOKIE_NAME = 'login'
-
 # File Upload to var/uploads/
 INSTA485_ROOT = pathlib.Path(__file__).resolve().parent.parent
 UPLOAD_FOLDER = INSTA485_ROOT/'var'/'uploads'
@@ -18,3 +17,5 @@ MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 # Database file is var/insta485.sqlite3
 DATABASE_FILENAME = INSTA485_ROOT/'var'/'insta485.sqlite3'
 
+import pathlib
+UPLOAD_FOLDER = pathlib.Path('/var/www/uploads')

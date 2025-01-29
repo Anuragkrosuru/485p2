@@ -1,0 +1,16 @@
+# Ignore virtual environments
+env/
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore system/macOS files
+.DS_Store
+
+# Ignore dependency files (if using Python)
+pip-log.txt
+pip-wheel-metadata/

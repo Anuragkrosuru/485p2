@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+</head>
+<body>
+    <a href="/"> <img src="/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/{{ logname }}/"> {{ logname }} </a>
+    <hr/>
+
+    <h1>{{ username }}</h1>
+
+    {% if logname_follows_username %}
+        <p>following</p>
+    {% elif not logname_follows_username and logname != username %}
+        <p>not following</p>
+    {% endif %}
+
+    <p> 
+        {{ total_posts }} {% if total_posts == 1 %} post {% else %} posts {% endif %} 
+        <a href="/users/{{ username }}/followers/">
+            <strong>{{ followers }} {% if followers == 1 %} follower {% else %} followers {% endif %} </strong> 
+        </a> 
+        <a href="/users/{{ username }}/following/">
+            <strong> {{ following }} following </strong>
+        </a> 
+    </p>
+    <p> {{ fullname }} </p>
+    {% for post in posts %}
+        <a href="/posts/{{ post.postid }}/"><img src="{{ post.img_url }}" alt="post photo"/> </a>
+    {% endfor %}
+</body>
+</html>

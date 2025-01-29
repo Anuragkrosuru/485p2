@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+</head>
+<body>
+    <a href="/"> <img src="/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/{{ logname }}/"> {{ logname }} </a>
+    <hr/>
+
+    <div class="photo">
+        <a href="/users/{{ owner }}/">
+        <img src="{{ owner_img_url }}" height="50" width="50" alt="profile picture"/>
+         {{ owner }} </a>
+        <a href="/posts/{{ postid }}/"> {{ timestamp }} </a>
+        <br/>
+        <img src="{{ img_url }}" alt="post image"/>
+
+        {% if likes == 1%}
+            <p> {{ likes }} like </p>
+        {% else %}
+            <p> {{ likes }} likes </p>
+        {% endif %}
+        
+        {% for comment in comments %}
+            <p> <a href="/users/{{ comment.owner }}/"><strong> {{ comment.owner }} </strong></a> {{ comment.text }} </p>
+        {% endfor %}
+    </div>
+</body>
+</html>

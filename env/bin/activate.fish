@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /Users/tisyam/Documents/eecs485/485p2/env
+set -gx VIRTUAL_ENV /Users/justinsu/Desktop/EECS485/p2/485p2/env
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

@@ -1,4 +1,4 @@
-#!/home/ubuntu/485p2/env/bin/python3
+#!/Users/tisyam/Documents/eecs485/485p2/env/bin/python3.13
 # -*- coding: utf-8 -*-
 import re
 import sys

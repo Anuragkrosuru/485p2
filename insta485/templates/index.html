@@ -14,12 +14,14 @@
     {% for post in posts %}
     <div class="photo">
         <a href="/users/{{ post.owner }}/">
+        <!-- TODO: change owner pfp -->
         <img src="{{ post.owner_img_url }}" height="50" width="50" alt="profile picture"/>
          {{ post.owner }} </a>
-        <a href="/posts/{{ post.postid }}/"> {{ post.timestamp }} </a>
+        <a href="/posts/{{ post.postid }}/"> {{ post.created }} </a>
         <br/>
-        <img src="{{ post.img_url }}" alt="post image"/>
+        <img src="{{ post.filename }}" alt="post image"/>
 
+        <!-- TODO: figure out how to get post likes and comments  -->
         {% if post.likes == 1%}
             <p> {{ post.likes }} like </p>
         {% else %}
@@ -30,12 +32,33 @@
             <p> <a href="/users/{{ comment.owner }}/"><strong> {{ comment.owner }} </strong></a> {{ comment.text }} </p>
         {% endfor %}
     </div>
-
-    <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+    <!-- Like/Unlike Button -->
+    <!-- Show different form based on whether user has liked the post -->   
+    {% if post.liked %}
+    <!-- Unlike form - shown when user has already liked the post -->
+    <form action="/likes/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="operation" value="unlike"/>
+        <input type="hidden" name="postid" value="{{ post.postid }}"/>
+        <input type="submit" name="unlike" value="unlike"/>
+    </form>
+    {% else %}
+    <!-- Like form - shown when user hasn't liked the post -->
+    <form action="/likes/?target={{ request.path }}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="operation" value="like"/>
-        <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+        <input type="hidden" name="postid" value="{{ post.postid }}"/>
         <input type="submit" name="like" value="like"/>
     </form>
+    {% endif %}
+     <!-- Form for adding new comments -->
+     <form action="/comments/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="operation" value="create"/>
+        <input type="hidden" name="postid" value="{{ post.postid }}"/>
+        <input type="text" name="text" required/>
+        <input type="submit" name="comment" value="comment"/>
+    </form>
+    {% endfor %}
+</body>
+</html>
 
     <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
     <!-- <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
@@ -45,12 +68,5 @@
     </form> -->
 
         <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-    <form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="create"/>
-        <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
-        <input type="text" name="text" required/>
-        <input type="submit" name="comment" value="comment"/>
-    </form>
-    {% endfor %}
-</body>
-</html>
+    <!-- Comment Form -->
+   

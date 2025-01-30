@@ -3,3 +3,4 @@ from insta485.views.index import show_index
 from insta485.views.accounts import *
 from insta485.views.posts import *
 from insta485.views.users import *
+from insta485.views.likes import update_likes

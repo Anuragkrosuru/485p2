@@ -14,3 +14,4 @@ __pycache__/
 # Ignore dependency files (if using Python)
 pip-log.txt
 pip-wheel-metadata/
+__pycache__/

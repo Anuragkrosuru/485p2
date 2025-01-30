@@ -17,9 +17,9 @@
         <!-- TODO: change owner pfp -->
         <img src="{{ post.owner_img_url }}" height="50" width="50" alt="profile picture"/>
          {{ post.owner }} </a>
-        <a href="/posts/{{ post.postid }}/"> {{ post.created }} </a>
+        <a href="/posts/{{ post.postid }}/"> {{ post.created }} 
         <br/>
-        <img src="{{ post.filename }}" alt="post image"/>
+        <img src="{{ post.filename }}" alt="post image"/> </a>
 
         <!-- TODO: figure out how to get post likes and comments  -->
         {% if post.likes == 1%}

@@ -11,12 +11,12 @@
     <hr/>
 
     <div class="photo">
-        <a href="/users/{{ owner }}/">
+        <a href="/users/{{ post.owner }}/">
         <img src="{{ owner_img_url }}" height="50" width="50" alt="profile picture"/>
-         {{ owner }} </a>
-        <a href="/posts/{{ postid }}/"> {{ timestamp }} </a>
+         {{ post.owner }} </a>
+        <a href="/posts/{{ post.postid }}/"> {{ post.created }} </a>
         <br/>
-        <img src="{{ img_url }}" alt="post image"/>
+        <img src="{{ post.filename }}" alt="post image"/>
 
         {% if likes == 1%}
             <p> {{ likes }} like </p>
@@ -26,7 +26,52 @@
         
         {% for comment in comments %}
             <p> <a href="/users/{{ comment.owner }}/"><strong> {{ comment.owner }} </strong></a> {{ comment.text }} </p>
+            {% if comment.owner == logname %}
+                <!-- delete button -->
+                <form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="operation" value="delete"/>
+                    <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+                    <input type="submit" name="uncomment" value="delete"/>
+                </form>
+            {% endif %}
         {% endfor %}
+
+        <!-- like/unlike button -->
+        {% if like_status %}
+            <!-- unlike button -->
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="unlike"/>
+                <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+                <input type="submit" name="unlike" value="unlike"/>
+            </form>
+        {% else %}
+            <!-- like button -->
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="like"/>
+                <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+                <input type="submit" name="like" value="like"/>
+            </form>    
+        {% endif %}
+
+        <!-- comment button  -->
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="<FIXME_COMMENTS_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="create"/>
+            <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+            <input type="text" name="text" required/>
+            <input type="submit" name="comment" value="comment"/>
+        </form>
+
+
+        {% if logname == post.owner %}
+            <form action="<FIXME_POSTS_URL_HERE>?target=<FIXME_LOGGED_IN_USER_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="delete"/>
+                <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
+                <input type="submit" name="delete" value="delete this post"/>
+            </form>
+        {% endif %}
     </div>
 </body>
 </html>

@@ -10,6 +10,7 @@
   height="100"
   width="175"
 /> 
+<a href="{{ url_for('show_index') }}">Home</a>
     Insta 485
     <a href="/explore/"> Explore </a>
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
@@ -27,15 +28,27 @@
         <img src="{{ post.filename }}" alt="post image"/> </a>
 
         <!-- TODO: figure out how to get post likes and comments  -->
-        {% if post.likes == 1%}
-            <p> {{ post.likes }} like </p>
+
+        {% if post.likes > 0 %}
+        {% if post.likes == 1 %}
+            <p>{{ post.likes }} like</p>
         {% else %}
-            <p> {{ post.likes }} likes </p>
+            <p>{{ post.likes }} likes</p>
         {% endif %}
+    {% endif %}
+    
+
+        {% for post in posts %}
+  {% for comment in post.comments %}
+    {{ comment.text }}
+  {% endfor %}
+{% endfor %}
         
         {% for comment in post.comments %}
             <p> <a href="/users/{{ comment.owner }}/"><strong> {{ comment.owner }} </strong></a> {{ comment.text }} </p>
         {% endfor %}
+
+        
     </div>
     <!-- Like/Unlike Button -->
     <!-- Show different form based on whether user has liked the post -->   
@@ -55,11 +68,10 @@
     </form>
     {% endif %}
      <!-- Form for adding new comments -->
-     <form action="/comments/?target={{ request.path }}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="create"/>
-        <input type="hidden" name="postid" value="{{ post.postid }}"/>
-        <input type="text" name="text" required/>
-        <input type="submit" name="comment" value="comment"/>
+     <form action="/comments/?target={{ request.path }}" method="post">
+        <input type="hidden" name="postid" value="{{ post.postid }}">
+        <input type="text" name="text" required>
+        <input type="submit" name="comment" value="Comment">
     </form>
     {% endfor %}
 </body>

@@ -1,89 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> insta485 </title>
+    <title>insta485</title>
 </head>
 <body>
-    <img
-  src="{{ url_for('static', filename='images/logo.png') }}"
-  alt="Instagram Logo"
-  height="100"
-  width="175"
-/> 
-<a href="{{ url_for('show_index') }}">Home</a>
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="Instagram Logo"
+         height="100"
+         width="175"/>
+    <a href="{{ url_for('show_index') }}">Home</a>
     Insta 485
-    <a href="/explore/"> Explore </a>
-    <a href="/users/{{ logname }}/"> {{ logname }} </a>
+    <a href="/explore/">Explore</a>
+    <a href="/users/{{ logname }}/">{{ logname }}</a>
     <hr/>
 
-    <!-- post -->
     {% for post in posts %}
     <div class="photo">
         <a href="/users/{{ post.owner }}/">
-        <!-- TODO: change owner pfp -->
-        <img src="{{ post.owner_pfp }}" height="50" width="50" alt="profile picture"/>
-         {{ post.owner }} </a>
-        <a href="/posts/{{ post.postid }}/"> {{ post.created }} 
-        <br/>
-        <img src="{{ post.filename }}" alt="post image"/> </a>
-
-        <!-- TODO: figure out how to get post likes and comments  -->
+            <img src="{{ post.owner_pfp }}" height="50" width="50" alt="profile picture"/>
+            {{ post.owner }}
+        </a>
+        <a href="/posts/{{ post.postid }}/">
+            {{ post.created }}
+            <br/>
+            <img src="{{ post.filename }}" alt="post image"/>
+        </a>
 
         {% if post.likes > 0 %}
-        {% if post.likes == 1 %}
-            <p>{{ post.likes }} like</p>
-        {% else %}
-            <p>{{ post.likes }} likes</p>
+            {% if post.likes == 1 %}
+                <p>{{ post.likes }} like</p>
+            {% else %}
+                <p>{{ post.likes }} likes</p>
+            {% endif %}
         {% endif %}
-    {% endif %}
-    
 
-        {% for post in posts %}
-  {% for comment in post.comments %}
-    {{ comment.text }}
-  {% endfor %}
-{% endfor %}
-        
         {% for comment in post.comments %}
-            <p> <a href="/users/{{ comment.owner }}/"><strong> {{ comment.owner }} </strong></a> {{ comment.text }} </p>
+            <p>
+                <a href="/users/{{ comment.owner }}/">
+                    <strong>{{ comment.owner }}</strong>
+                </a>
+                {{ comment.text }}
+            </p>
         {% endfor %}
 
-        
+        {% if post.liked %}
+        <form action="/likes/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="unlike"/>
+            <input type="hidden" name="postid" value="{{ post.postid }}"/>
+            <input type="submit" name="unlike" value="unlike"/>
+        </form>
+        {% else %}
+        <form action="/likes/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="like"/>
+            <input type="hidden" name="postid" value="{{ post.postid }}"/>
+            <input type="submit" name="like" value="like"/>
+        </form>
+        {% endif %}
+
+        <form action="/comments/?target={{ request.path }}" method="post">
+            <input type="hidden" name="postid" value="{{ post.postid }}">
+            <input type="text" name="text" required>
+            <input type="submit" name="comment" value="Comment">
+        </form>
     </div>
-    <!-- Like/Unlike Button -->
-    <!-- Show different form based on whether user has liked the post -->   
-    {% if post.liked %}
-    <!-- Unlike form - shown when user has already liked the post -->
-    <form action="/likes/?target={{ request.path }}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="unlike"/>
-        <input type="hidden" name="postid" value="{{ post.postid }}"/>
-        <input type="submit" name="unlike" value="unlike"/>
-    </form>
-    {% else %}
-    <!-- Like form - shown when user hasn't liked the post -->
-    <form action="/likes/?target={{ request.path }}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="like"/>
-        <input type="hidden" name="postid" value="{{ post.postid }}"/>
-        <input type="submit" name="like" value="like"/>
-    </form>
-    {% endif %}
-     <!-- Form for adding new comments -->
-     <form action="/comments/?target={{ request.path }}" method="post">
-        <input type="hidden" name="postid" value="{{ post.postid }}">
-        <input type="text" name="text" required>
-        <input type="submit" name="comment" value="Comment">
-    </form>
     {% endfor %}
 </body>
 </html>
-
-    <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-    <!-- <form action="<FIXME_LIKES_URL_HERE>?target=<FIXME_CURRENT_PAGE_URL_HERE>" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="unlike"/>
-        <input type="hidden" name="postid" value="<FIXME_POST_ID_HERE>"/>
-        <input type="submit" name="unlike" value="unlike"/>
-    </form> -->
-
-        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-    <!-- Comment Form -->
-   

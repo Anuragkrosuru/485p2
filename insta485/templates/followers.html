@@ -10,18 +10,27 @@
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
     <hr/>
 
-    <h1> Followers </h1>
+    <h1>Followers</h1>
     {% for follower in followers %}
-        <p>
-            <a href="/users/{{ follower.username }}/">
-                <img src="{{ follower.user_img_url }}" alt="profile picture"> {{ follower.username }}
-                {% if follower.logname_follows_username %} 
-                    following 
-                {% elif not follower.logname_follows_username and not follower.username == logname %}
-                    not following
-                {% endif %}
-            </a>
-        </p>
+        <div>
+            <a href="/users/{{ follower.username }}/"><img src="{{ follower.user_img_url }}" alt="profile picture"></a>
+            <a href="/users/{{ follower.username }}/">{{ follower.username }}</a>
+            {% if follower.logname_follows_username and follower.username != logname %}
+                following
+                <form action="/following/?target=/users/{{ follower.username }}/followers/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="{{ follower.username }}"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+            {% elif not follower.logname_follows_username and follower.username != logname %}
+                not following
+                <form action="/following/?target=/users/{{ follower.username }}/followers/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{ follower.username }}"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                </form>
+            {% endif %}
+        </div>
     {% endfor %}
 </body>
 </html>

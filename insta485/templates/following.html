@@ -10,18 +10,29 @@
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
     <hr/>
 
-    <h1> Following </h1>
+    <h1>Following</h1>
     {% for follow in following %}
-        <p>
+        <div>
             <a href="/users/{{ follow.username }}/">
-                <img src="{{ follow.user_img_url }}" alt="profile picture"> {{ follow.username }}
-                {% if follow.logname_follows_username %} 
-                    following 
-                {% elif not follow.logname_follows_username and not follow.username == logname %}
-                    not following
-                {% endif %}
+                <img src="{{ follow.user_img_url }}" alt="profile picture">
+                {{ follow.username }}
             </a>
-        </p>
+            {% if follow.logname_follows_username and follow.username != logname %}
+                following
+                <form action="/following/?target=/users/{{ follow.username }}/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="{{ follow.username }}"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+            {% elif not follow.logname_follows_username and follow.username != logname %}
+                not following
+                <form action="/following/?target=/users/{{ follow.username }}/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{ follow.username }}"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                </form>
+            {% endif %}
+        </div>
     {% endfor %}
 </body>
 </html>

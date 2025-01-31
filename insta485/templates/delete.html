@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Delete Account - Insta485</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/">
+                <img src="{{ url_for('uploads', filename='logo.png') }}" 
+                     class="logo" 
+                     alt="Instagram Logo">
+            </a>
+            <div class="nav-links">
+                <a href="/explore/">explore</a>
+                <a href="/users/{{ logname }}/">{{ logname }}</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="delete-container">
+        <h1>Confirm Account Deletion</h1>
+        
+        <div class="delete-warning">
+            <p>You are about to permanently delete your account. This action:</p>
+            <ul>
+                <li>Removes all your posts</li>
+                <li>Deletes your profile information</li>
+                <li>Cannot be undone</li>
+            </ul>
+        </div>
+
+        <form action="{{ url_for('accounts_operation') }}?target={{ url_for('show_create_account') }}"
+              method="post"
+              enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="delete">
+            
+            <div class="form-actions">
+                <button type="submit" class="button-danger">
+                    Permanently Delete Account
+                </button>
+                <a href="{{ url_for('show_edit_account') }}" class="button-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

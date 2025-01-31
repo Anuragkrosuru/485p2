@@ -98,12 +98,20 @@ def accounts_operation():
         return flask.redirect(target_url)
 
     elif operation == "logout":
-        # Remove "logname" from session to log out
-        flask.session.pop("logname", None)
-    # Or "logname" if that’s your session key
-
-        return flask.redirect(target_url)
-        # handle delete
-        ...
+        """Handle logout."""
+        if "logname" not in flask.session:
+            flask.abort(403)
+    
+        flask.session.clear()
+        return flask.redirect(flask.url_for("show_login"))
     else:
         flask.abort(400, f"Bad operation '{operation}'")
+
+@insta485.app.route("/accounts/logout/", methods=["POST"])
+def show_logout():
+    """Handle logout."""
+    if "logname" not in flask.session:
+        flask.abort(403)
+    
+    flask.session.clear()
+    return flask.redirect(flask.url_for("show_login"))

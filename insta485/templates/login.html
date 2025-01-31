@@ -1,70 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> insta485 </title>
+    <title>Login</title>
 </head>
 <body>
-    <img src="{{ url_for('static', filename='images/logo.png') }}" 
-         alt="Instagram Logo" height="100" width="175">
-    <a href="{{ url_for('show_index') }}">Home</a>
-    Insta 485
-    <a href="/explore/"> Explore </a>
-    <a href="/users/{{ logname }}/"> {{ logname }} </a>
-    <hr/>
-
-    {% for post in posts %}
-    <div class="photo">
-        <a href="/users/{{ post.owner }}/">
-            <img src="{{ post.owner_pfp }}" height="50" width="50" 
-                 alt="profile picture">
-            {{ post.owner }}
-        </a>
-        <a href="/posts/{{ post.postid }}/">
-            {{ post.created }}
-            <br/>
-            <img src="{{ post.filename }}" alt="post image">
-        </a>
-
-        {# Likes #}
-        {% if post.likes > 0 %}
-            {% if post.likes == 1 %}
-                <p>{{ post.likes }} like</p>
-            {% else %}
-                <p>{{ post.likes }} likes</p>
-            {% endif %}
-        {% endif %}
-
-        {# Like/Unlike Button #}
-        {% if post.liked %}
-            <form action="/likes/?target={{ request.path }}" method="post">
-                <input type="hidden" name="operation" value="unlike">
-                <input type="hidden" name="postid" value="{{ post.postid }}">
-                <input type="submit" name="unlike" value="unlike">
-            </form>
-        {% else %}
-            <form action="/likes/?target={{ request.path }}" method="post">
-                <input type="hidden" name="operation" value="like">
-                <input type="hidden" name="postid" value="{{ post.postid }}">
-                <input type="submit" name="like" value="like">
-            </form>
-        {% endif %}
-
-        {# Comments #}
-        {% for comment in post.comments %}
-            <p>
-                <a href="/users/{{ comment.owner }}/"><strong>{{ comment.owner }}</strong></a>
-                {{ comment.text }}
-            </p>
-        {% endfor %}
-
-        {# Comment Form #}
-        <form action="/comments/?target={{ request.path }}" method="post">
-            <input type="hidden" name="operation" value="create">
-            <input type="hidden" name="postid" value="{{ post.postid }}">
-            <input type="text" name="text" required>
-            <input type="submit" name="comment" value="Comment">
-        </form>
-    </div>
-    {% endfor %}
+    <h1>Login</h1>
+    <form action="/accounts/" method="post">
+        <input type="text" name="username" required/>
+        <input type="password" name="password" required/>
+        <input type="hidden" name="operation" value="login"/>
+        <input type="submit" value="login"/>
+    </form>
+    <p>Don't have an account? <a href="/accounts/create/">Create one</a></p>
 </body>
 </html>

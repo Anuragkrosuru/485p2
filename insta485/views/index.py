@@ -13,11 +13,15 @@ import arrow
 def show_index():
     """Display / route."""
 
+    # Redirect to login if not authenticated
+    if "username" not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+
     # Connect to database
     connection = insta485.model.get_db()
 
     # Query database
-    logname = "awdeorio"
+    logname = flask.session["username"]
     # cur = connection.execute(
     #     "SELECT username, fullname "
     #     "FROM users "

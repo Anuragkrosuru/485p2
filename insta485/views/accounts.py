@@ -3,6 +3,7 @@ import flask
 import insta485
 import hashlib
 import uuid
+import os
 
 @insta485.app.route("/accounts/login/", methods=["GET"])
 def show_login():
@@ -22,7 +23,7 @@ def show_create_account():
 @insta485.app.route("/accounts/delete/", methods=["GET"])
 def show_delete_account():
     """Display account deletion confirmation."""
-    if "username" not in flask.session:
+    if "logname" not in flask.session:
         return flask.redirect(flask.url_for("show_login"))
     return flask.render_template("delete.html")
 
@@ -114,12 +115,22 @@ def accounts_operation():
         return flask.redirect(flask.url_for("show_login"))
      
     elif operation == "delete":
-        if "username" not in flask.session:
+        if "logname" not in flask.session:  # Changed from username to logname
             flask.abort(403)
             
-        username = flask.session["username"]
+        username = flask.session["logname"]  # Changed from username to logname
         
-        # Delete user files
+        # Delete user's posts and their images
+        posts = connection.execute(
+            "SELECT filename FROM posts WHERE owner = ?", (username,)
+        ).fetchall()
+        
+        for post in posts:
+            filepath = insta485.app.config["UPLOAD_FOLDER"]/post["filename"]
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        
+        # Delete user's profile image
         user = connection.execute(
             "SELECT filename FROM users WHERE username = ?", (username,)
         ).fetchone()
@@ -128,11 +139,13 @@ def accounts_operation():
             if os.path.exists(filepath):
                 os.remove(filepath)
         
-        # Delete database entries
+        # Delete all database entries
         connection.execute("DELETE FROM users WHERE username = ?", (username,))
-        flask.session.clear()
-        return flask.redirect(flask.url_for("show_create_account"))
+        connection.commit()  # Don't forget to commit changes
         
+        flask.session.clear()
+        return flask.redirect(target_url) 
+
     else:
         flask.abort(400, f"Bad operation '{operation}'")
 

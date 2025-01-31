@@ -4,7 +4,12 @@
     <title> insta485 </title>
 </head>
 <body>
-    <a href="/"> <img src="/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    <img
+  src="{{ url_for('static', filename='images/logo.png') }}"
+  alt="Instagram Logo"
+  height="100"
+  width="175"
+/> 
     Insta 485
     <a href="/explore/"> Explore </a>
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
@@ -15,7 +20,7 @@
     <div class="photo">
         <a href="/users/{{ post.owner }}/">
         <!-- TODO: change owner pfp -->
-        <img src="{{ post.owner_img_url }}" height="50" width="50" alt="profile picture"/>
+        <img src="{{ post.owner_pfp }}" height="50" width="50" alt="profile picture"/>
          {{ post.owner }} </a>
         <a href="/posts/{{ post.postid }}/"> {{ post.created }} 
         <br/>

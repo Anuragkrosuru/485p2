@@ -3,6 +3,7 @@ Insta485 followers view.
 
 URLs include:
 /users/<user_url_slug>/followers/
+/following/
 """
 import flask
 import insta485
@@ -15,10 +16,10 @@ def show_followers(user_url_slug):
     connection = insta485.model.get_db()
 
     # Check if user is logged in
-    if 'username' not in flask.session:
+    if 'logname' not in flask.session:
         return flask.redirect(flask.url_for('show_login'))
     
-    logname = flask.session['username']
+    logname = flask.session['logname']
 
     # Check if the requested user exists
     cur = connection.execute(
@@ -51,7 +52,7 @@ def show_followers(user_url_slug):
     # Add URL prefix to user images
     for follower in followers:
         follower['user_img_url'] = flask.url_for(
-            'show_file', 
+            "serve_upload", 
             filename=follower['user_img_url']
         )
 
@@ -61,3 +62,8 @@ def show_followers(user_url_slug):
         logname=logname,
         followers=followers
     )
+
+# @insta485.app.route("/uploads/<filename>")
+# def serve_upload(filename):
+#     """Serve uploaded files from var/uploads/."""
+#     return flask.send_from_directory(insta485.app.config["UPLOAD_FOLDER"], filename)

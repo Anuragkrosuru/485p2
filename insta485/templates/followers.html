@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title> insta485 </title>
+    <title>insta485</title>
 </head>
 <body>
-    <a href="/"> <img src="/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
-    Insta 485
-    <a href="/explore/"> Explore </a>
-    <a href="/users/{{ logname }}/"> {{ logname }} </a>
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Instagram Logo" height="100" width="175"/></a>
+    Insta485
+    <a href="/explore/">explore</a>
+    <a href="/users/{{ logname }}/">{{ logname }}</a>
     <hr/>
 
     <h1>Followers</h1>
     {% for follower in followers %}
         <div>
-            <a href="/users/{{ follower.username }}/"><img src="{{ follower.user_img_url }}" alt="profile picture"></a>
-            <a href="/users/{{ follower.username }}/">{{ follower.username }}</a>
+            <a href="/users/{{ follower.username }}/">
+                <img src="{{ follower.user_img_url }}" alt="profile picture">
+                {{ follower.username }}
+            </a>
             {% if follower.logname_follows_username and follower.username != logname %}
                 following
-                <form action="/following/?target=/users/{{ follower.username }}/followers/" method="post" enctype="multipart/form-data">
+                <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
                     <input type="submit" name="unfollow" value="unfollow"/>
                     <input type="hidden" name="username" value="{{ follower.username }}"/>
                     <input type="hidden" name="operation" value="unfollow"/>
                 </form>
             {% elif not follower.logname_follows_username and follower.username != logname %}
                 not following
-                <form action="/following/?target=/users/{{ follower.username }}/followers/" method="post" enctype="multipart/form-data">
+                <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
                     <input type="submit" name="follow" value="follow"/>
                     <input type="hidden" name="username" value="{{ follower.username }}"/>
                     <input type="hidden" name="operation" value="follow"/>

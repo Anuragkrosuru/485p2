@@ -7,6 +7,7 @@ URLs include:
 import flask
 import insta485
 import arrow
+import os
 
 
 @insta485.app.route('/')
@@ -14,14 +15,14 @@ def show_index():
     """Display / route."""
 
     # Redirect to login if not authenticated
-    if "username" not in flask.session:
+    if "logname" not in flask.session:
         return flask.redirect(flask.url_for("show_login"))
 
     # Connect to database
     connection = insta485.model.get_db()
 
     # Query database
-    logname = flask.session["username"]
+    logname = flask.session["logname"]
     # cur = connection.execute(
     #     "SELECT username, fullname "
     #     "FROM users "
@@ -68,12 +69,13 @@ def show_index():
         else:
             avatar = "default.jpg" 
 
+        filename = post["filename"]
         modified = {
             "postid": post["postid"],
-            "filename": post["filename"],
+            "filename": flask.url_for("serve_upload", filename=filename),
             "owner": post["owner"],
             "created": arrow.get(post["created"]).humanize(),
-            "owner_pfp": avatar,
+            "owner_pfp": flask.url_for("serve_upload", filename=avatar),
             "likes": num_likes,
             "comments": comments,
             "logname" : logname,
@@ -86,3 +88,11 @@ def show_index():
     # context = {"users": users}
     context = {"logname": logname, "posts" : modified_posts}
     return flask.render_template("index.html", **context)
+
+
+
+@insta485.app.route("/uploads/<filename>")
+def serve_upload(filename):
+    """Serve uploaded files from var/uploads/."""
+    return flask.send_from_directory(insta485.app.config["UPLOAD_FOLDER"], filename)
+

@@ -4,7 +4,7 @@
     <title> insta485 </title>
 </head>
 <body>
-    <a href="/"> <img src="/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    <a href="/"> <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Instagram Logo" height="100" width="175"/> </a>  
     Insta 485
     <a href="/explore/"> Explore </a>
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
@@ -13,7 +13,7 @@
     <h1>Discover People</h1>
     {% for person in not_following %}
     <a href="/users/{{ person.username }}/">
-        <img src="{{ person.user_img_url }}" alt="profile picture"> {{ person.username }}
+        <img src="{{ person.filename }}" alt="profile picture"> {{ person.username }}
     </a>
     {% endfor %}
 

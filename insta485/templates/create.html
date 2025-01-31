@@ -1,3 +1,35 @@
-<h1>Create an Account</h1>
-<p>Welcome! Please fill out the form below.</p>
-<img src="https://media.printables.com/media/prints/813001/images/6285231_9138b851-7916-4f2c-89d0-eca5864aa63d_383633d2-2441-471f-8d81-b388270839bd/thumbs/inside/1280x960/jpg/flopper.webp">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+</head>
+
+<body>
+    <h1>Create an account</h1>
+    <!-- POST to "/accounts/?target=/", with operation="create" -->
+    <form action="{{ url_for('accounts_operation') }}?target={{ url_for('show_index') }}" method="post"
+        enctype="multipart/form-data">
+        <input type="hidden" name="operation" value="create" />
+        <p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+        </p>
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+        </p>
+        <p>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+        </p>
+        <p>
+            <label for="name">Full Name:</label>
+            <input type="name" id="name" name="name" required />
+        </p>
+        <input type="submit" value="Sign Up" />
+    </form>
+</body>
+
+</html>

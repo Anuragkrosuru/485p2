@@ -4,7 +4,7 @@
     <title> insta485 </title>
 </head>
 <body>
-    <a href="/"> <img src="/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    <a href="/"> <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Instagram Logo" height="100" width="175"/> </a>  
     Insta 485
     <a href="/explore/"> Explore </a>
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
@@ -19,14 +19,14 @@
             </a>
             {% if follow.logname_follows_username and follow.username != logname %}
                 following
-                <form action="/following/?target=/users/{{ follow.username }}/following/" method="post" enctype="multipart/form-data">
+                <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
                     <input type="submit" name="unfollow" value="unfollow"/>
                     <input type="hidden" name="username" value="{{ follow.username }}"/>
                     <input type="hidden" name="operation" value="unfollow"/>
                 </form>
             {% elif not follow.logname_follows_username and follow.username != logname %}
                 not following
-                <form action="/following/?target=/users/{{ follow.username }}/following/" method="post" enctype="multipart/form-data">
+                <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
                     <input type="submit" name="follow" value="follow"/>
                     <input type="hidden" name="username" value="{{ follow.username }}"/>
                     <input type="hidden" name="operation" value="follow"/>

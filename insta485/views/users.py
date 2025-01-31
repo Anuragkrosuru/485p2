@@ -3,8 +3,15 @@ import flask
 
 @insta485.app.route('/users/<user_url_slug>/')
 def users(user_url_slug):
+    #connection = insta485.model.get_db()
+    if "logname" not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+
+    # Connect to database
     connection = insta485.model.get_db()
-    logname = "awdeorio"
+
+    # Query database
+    logname = flask.session["logname"]
 
     cur = connection.execute(
         "SELECT * FROM users WHERE username = ?", 
@@ -37,7 +44,7 @@ def users(user_url_slug):
     for post in posts:
         post_dict = dict(post)  
         filename = post["filename"]
-        post_dict["image_url"] = flask.url_for('static', filename=f'uploads/{filename}')
+        post_dict["image_url"] = flask.url_for('serve_upload', filename=filename)
         modified_posts.append(post_dict)
 
 
@@ -64,3 +71,8 @@ def users(user_url_slug):
                "followers": followers,
                "following": following}
     return flask.render_template("user.html", **context)
+
+# @insta485.app.route("/uploads/<filename>")
+# def serve_upload(filename):
+#     """Serve uploaded files from var/uploads/."""
+#     return flask.send_from_directory(insta485.app.config["UPLOAD_FOLDER"], filename)

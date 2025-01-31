@@ -5,9 +5,17 @@ import arrow
 
 @insta485.app.route('/posts/<postid_url_slug>/')
 def posts(postid_url_slug):
+    if "logname" not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+
+    # Connect to database
+    #connection = insta485.model.get_db()
+
+    # Query database
+    logname = flask.session["logname"]
     connection = insta485.model.get_db()
     connection.row_factory = sqlite3.Row
-    logname = "awdeorio"
+    #logname = "awdeorio"
 
     cur = connection.execute(
         "SELECT * FROM posts WHERE postid = ?",
@@ -17,7 +25,7 @@ def posts(postid_url_slug):
     modified_post = dict(post)
     modified_post["created"] = arrow.get(post["created"]).humanize()
     filename = post["filename"]
-    modified_post["filename"] = flask.url_for('static', filename=f'uploads/{filename}')
+    modified_post["filename"] = flask.url_for('serve_upload', filename=filename)
 
     # get owner pfp 
     owner = post["owner"]
@@ -55,3 +63,8 @@ def posts(postid_url_slug):
                "like_status": like_status,
                "owner_img_url": pfp}
     return flask.render_template("post.html", **context)
+
+# @insta485.app.route("/uploads/<filename>")
+# def serve_upload(filename):
+#     """Serve uploaded files from var/uploads/."""
+#     return flask.send_from_directory(insta485.app.config["UPLOAD_FOLDER"], filename)

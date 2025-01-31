@@ -19,6 +19,13 @@ def show_create_account():
     """Display account creation page."""
     return flask.render_template("create.html")
 
+@insta485.app.route("/accounts/delete/", methods=["GET"])
+def show_delete_account():
+    """Display account deletion confirmation."""
+    if "username" not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+    return flask.render_template("delete.html")
+
 
 @insta485.app.route("/accounts/", methods=["POST"])
 def accounts_operation():
@@ -105,6 +112,27 @@ def accounts_operation():
     
         flask.session.clear()
         return flask.redirect(flask.url_for("show_login"))
+     
+    elif operation == "delete":
+        if "username" not in flask.session:
+            flask.abort(403)
+            
+        username = flask.session["username"]
+        
+        # Delete user files
+        user = connection.execute(
+            "SELECT filename FROM users WHERE username = ?", (username,)
+        ).fetchone()
+        if user:
+            filepath = insta485.app.config["UPLOAD_FOLDER"]/user["filename"]
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        
+        # Delete database entries
+        connection.execute("DELETE FROM users WHERE username = ?", (username,))
+        flask.session.clear()
+        return flask.redirect(flask.url_for("show_create_account"))
+        
     else:
         flask.abort(400, f"Bad operation '{operation}'")
 

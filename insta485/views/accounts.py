@@ -58,6 +58,7 @@ def accounts_operation():
             "VALUES (?, ?, ?, ?, ?)",
             (username, "New User", "fake@example.com", "default.jpg", password_db_string)
         )
+        connection.commit()
 
         # 5) Log them in: set session["logname"]
         flask.session["logname"] = username

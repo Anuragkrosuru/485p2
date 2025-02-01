@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <a href="/">
+        <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175" />
+    </a>
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr />
+
+    <h1>jag</h1>
+
+    
+    <p>not following</p>
+    <!-- Follow form -->
+    <form action="/following/?target=/users/jag/" method="post" enctype="multipart/form-data">
+        <input type="submit" name="follow" value="follow" />
+        <input type="hidden" name="username" value="jag" />
+        <input type="hidden" name="operation" value="follow" />
+    </form>
+    
+
+    <p>
+        1  post 
+        <a href="/users/jag/followers/">
+            <strong>1  follower </strong>
+        </a>
+        <a href="/users/jag/following/">
+            <strong>1 following </strong>
+        </a>
+    </p>
+    <p> H.V. Jagadish </p>
+
+    <!-- Iterate through each post and display it -->
+    
+    <div class="post">
+        <a href="/posts/4/">
+            <img src="/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg" alt="post photo" />
+        </a>
+        
+    </div>
+    
+</body>
+
+</html>

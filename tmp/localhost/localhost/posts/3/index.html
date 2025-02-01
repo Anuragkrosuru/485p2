@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <a href="/"> <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr/>
+
+    <div class="photo">
+        <a href="/users/awdeorio/">
+        <img src="&lt;sqlite3.Row object at 0x107240490&gt;" height="50" width="50" alt="profile picture"/>
+         awdeorio </a>
+        <a href="/posts/3/"> just now </a>
+        <br/>
+        <img src="/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg" alt="post image"/>
+
+        
+            <p> 1 like </p>
+        
+        
+        
+            <p> <a href="/users/awdeorio/"><strong> awdeorio </strong></a> #chickensofinstagram </p>
+            
+                <!-- delete button -->
+                <form action="/comments/?target=/posts/3/" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="operation" value="delete"/>
+                    <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+                    <input type="submit" name="uncomment" value="delete"/>
+                </form>
+            
+        
+            <p> <a href="/users/jflinn/"><strong> jflinn </strong></a> I &lt;3 chickens </p>
+            
+        
+            <p> <a href="/users/michjc/"><strong> michjc </strong></a> Cute overload! </p>
+            
+        
+
+        <!-- like/unlike button -->
+        
+            <!-- unlike button -->
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="</likes/?target=/posts/3/" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="unlike"/>
+                <input type="hidden" name="postid" value="3"/>
+                <input type="submit" name="unlike" value="unlike"/>
+            </form>
+        
+
+        <!-- comment button  -->
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="/comments/?target=/posts/3/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="create"/>
+            <input type="hidden" name="postid" value="3"/>
+            <input type="text" name="text" required/>
+            <input type="submit" name="comment" value="comment"/>
+        </form>
+
+
+        
+            <form action="</posts/>?target=/user/awdeorio" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="delete"/>
+                <input type="hidden" name="postid" value="3"/>
+                <input type="submit" name="delete" value="delete this post"/>
+            </form>
+        
+    </div>
+</body>
+</html>

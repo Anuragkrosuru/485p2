@@ -1,70 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title> insta485 </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <a href="/"> <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Instagram Logo" height="100" width="175"/> </a>  
+    <a href="/">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Instagram Logo" height="100" width="175" />
+    </a>
     Insta 485
     <a href="/explore/"> Explore </a>
     <a href="/users/{{ logname }}/"> {{ logname }} </a>
-    <hr/>
+    <hr />
 
     <h1>{{ user.username }}</h1>
 
     {% if user.username == logname %}
+    <!-- Edit profile -->
+    <a href="/accounts/edit/"> <strong> Edit profile </strong></a>
+
     <!-- Form to log out -->
-    <form action="{{ url_for('accounts_operation') }}?target={{ url_for('show_login') }}"
-            method="post"
-            enctype="multipart/form-data">
+    <form action="{{ url_for('accounts_operation') }}?target={{ url_for('show_login') }}" method="post"
+        enctype="multipart/form-data">
         <input type="hidden" name="operation" value="logout">
         <input type="submit" name="logout" value="Logout">
     </form>
 
+    <!-- Create post form -->
+    <form action="/posts/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <input type="hidden" name="operation" value="create">
+        <input type="submit" name="create_post" value="Upload new post">
+    </form>
     {% elif logname_follows_username %}
-        <p>following</p>
-        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-        <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
-            <input type="submit" name="unfollow" value="unfollow"/>
-            <input type="hidden" name="username" value="{{ user.username }}"/>
-            <input type="hidden" name="operation" value="unfollow"/>
-        </form>
-  
+    <p>following</p>
+    <!-- Following form -->
+    <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+        <input type="submit" name="unfollow" value="unfollow" />
+        <input type="hidden" name="username" value="{{ user.username }}" />
+        <input type="hidden" name="operation" value="unfollow" />
+    </form>
     {% elif not logname_follows_username and logname != user.username %}
-        <p>not following</p>
-        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-        <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
-            <input type="submit" name="follow" value="follow"/>
-            <input type="hidden" name="username" value="{{ user.username }}"/>
-            <input type="hidden" name="operation" value="follow"/>
-        </form>
-    {% else %}
-        <p> <strong> Edit profile </strong></p>
-        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-        <form action="/accounts/" method="post" enctype="multipart/form-data">
-            <input type="submit" name="logout" value="Logout"/>
-        </form>
-
-        <!-- create post -->
-        <form action="/posts/?target={{ request.path }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="image/*" required/>
-            <input type="submit" name="create_post" value="upload new post"/>
-            <input type="hidden" name="operation" value="create"/>
-        </form>
+    <p>not following</p>
+    <!-- Follow form -->
+    <form action="/following/?target={{ request.path }}" method="post" enctype="multipart/form-data">
+        <input type="submit" name="follow" value="follow" />
+        <input type="hidden" name="username" value="{{ user.username }}" />
+        <input type="hidden" name="operation" value="follow" />
+    </form>
     {% endif %}
 
-    <p> 
-        {{ total_posts }} {% if total_posts == 1 %} post {% else %} posts {% endif %} 
+    <p>
+        {{ total_posts }} {% if total_posts == 1 %} post {% else %} posts {% endif %}
         <a href="/users/{{ user.username }}/followers/">
-            <strong>{{ followers }} {% if followers == 1 %} follower {% else %} followers {% endif %} </strong> 
-        </a> 
+            <strong>{{ followers }} {% if followers == 1 %} follower {% else %} followers {% endif %}</strong>
+        </a>
         <a href="/users/{{ user.username }}/following/">
-            <strong> {{ following }} following </strong>
-        </a> 
+            <strong>{{ following }} following </strong>
+        </a>
     </p>
     <p> {{ user.fullname }} </p>
+
+    <!-- Iterate through each post and display it -->
     {% for post in posts %}
-        <a href="/posts/{{ post.postid }}/"><img src="{{ post.image_url }}" alt="post photo"/> </a>
+    <div class="post">
+        <a href="/posts/{{ post.postid }}/">
+            <img src="{{ post.image_url }}" alt="post photo" />
+        </a>
+        {% if user.username == logname %}
+        <!-- Delete post form for each post -->
+        <form action="/posts/?target={{ request.path }}" method="post">
+            <input type="hidden" name="operation" value="delete">
+            <input type="hidden" name="postid" value="{{ post.postid }}">
+            <input type="submit" value="Delete Post">
+        </form>
+        {% endif %}
+    </div>
     {% endfor %}
 </body>
+
 </html>

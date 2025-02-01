@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <a href="/"> <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr/>
+
+    <h1>Following</h1>
+    
+        <div>
+            <a href="/users/awdeorio/">
+                <img src="/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg" alt="profile picture">
+                awdeorio
+            </a>
+            
+        </div>
+    
+        <div>
+            <a href="/users/jag/">
+                <img src="/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg" alt="profile picture">
+                jag
+            </a>
+            
+                not following
+                <form action="/following/?target=/users/michjc/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="jag"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                </form>
+            
+        </div>
+    
+</body>
+</html>

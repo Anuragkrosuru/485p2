@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Create Post</title>
+</head>
+
+<body>
+    <h1>Create a New Post</h1>
+    <form action="/posts/?target={{ url_for('users', user_url_slug=logname) }}" method="post"
+        enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <input type="hidden" name="operation" value="create">
+        <input type="submit" value="Upload Post">
+    </form>
+</body>
+
+</html>

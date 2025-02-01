@@ -1,0 +1,285 @@
+/* Instagram Official Styling */
+:root {
+    --ig-primary-button: #0095f6;
+    --ig-primary-button-hover: #1877f2;
+    --ig-link: #00376b;
+    --ig-error: #ed4956;
+    --ig-separator: #dbdbdb;
+    --ig-text-primary: #262626;
+    --ig-text-secondary: #8e8e8e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #fafafa;
+    color: var(--ig-text-primary);
+    line-height: 1.5;
+}
+
+/* Navigation Bar */
+.navbar {
+    background: white;
+    border-bottom: 1px solid var(--ig-separator);
+    padding: 12px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar img {
+    height: 29px;
+}
+
+.navbar a {
+    color: var(--ig-text-primary);
+    text-decoration: none;
+    margin-left: 22px;
+    font-weight: 500;
+}
+
+/* Posts */
+.photo {
+    background: white;
+    border: 1px solid var(--ig-separator);
+    border-radius: 3px;
+    margin-bottom: 24px;
+    max-width: 614px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.photo .header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+}
+
+.photo .header img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.photo .header a {
+    color: var(--ig-text-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.photo img.post-image {
+    width: 100%;
+    height: auto;
+}
+
+/* Like/Comment Section */
+.actions {
+    padding: 8px 16px;
+}
+
+.photo .likes {
+    padding: 0 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.photo .comments {
+    padding: 0 16px;
+}
+
+.photo .comment {
+    margin-bottom: 4px;
+}
+
+.photo .comment a {
+    color: var(--ig-text-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Forms */
+form {
+    margin: 8px 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 9px 8px;
+    background: #fafafa;
+    border: 1px solid var(--ig-separator);
+    border-radius: 3px;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+input[type="submit"],
+.button-primary {
+    background: var(--ig-primary-button);
+    border: none;
+    padding: 5px 9px;
+    color: white;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+.button-primary:hover {
+    background: var(--ig-primary-button-hover);
+}
+
+/* Explore/User Grid */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 935px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.photo-grid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+/* User Profile */
+.profile-header {
+    max-width: 935px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 100px;
+}
+
+.profile-info h2 {
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+/* Followers/Following Pages */
+.user-list {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--ig-separator);
+    border-radius: 3px;
+}
+
+.user-list-item {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--ig-separator);
+}
+
+.user-list-item:last-child {
+    border-bottom: none;
+}
+
+.user-list-item .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-list-item img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+/* Comment Form */
+.comment-form {
+    border-top: 1px solid var(--ig-separator);
+    padding: 16px;
+    display: flex;
+}
+
+.comment-form input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    background: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+.comment-form input[type="submit"] {
+    background: none;
+    border: none;
+    color: var(--ig-primary-button);
+    font-weight: 600;
+    padding: 0 0 0 12px;
+}
+
+/* Delete Account Page */
+.delete-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--ig-separator);
+    border-radius: 3px;
+}
+
+.delete-warning {
+    background: #fff8f8;
+    border: 1px solid #ffebee;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.button-danger {
+    background: var(--ig-error);
+    color: white;
+    border: none;
+    padding: 5px 9px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Edit Profile Page */
+.edit-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--ig-separator);
+    border-radius: 3px;
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }

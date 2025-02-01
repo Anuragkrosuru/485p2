@@ -2,23 +2,23 @@
 <html lang="en">
 <head>
     <title>Edit Profile - Insta485</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="navbar">
-        <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Instagram Logo"/></a>
+        <a href="/"><img src="/static/images/logo.png" alt="Instagram Logo"/></a>
         Insta485
         <a href="/explore/">explore</a>
-        <a href="/users/{{ logname }}/">{{ logname }}</a>
+        <a href="/users/awdeorio/">awdeorio</a>
     </div>
 
     <div class="edit-container">
         <h1>Edit Profile</h1>
         
-        <img src="{{ user_img_url }}" alt="profile picture"/>
-        <p>{{ logname }}</p>
+        <img src="e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg" alt="profile picture"/>
+        <p>awdeorio</p>
 
-        <form action="/accounts/?target={{ request.path }}" 
+        <form action="/accounts/?target=/accounts/edit/" 
               method="post" 
               enctype="multipart/form-data">
             <div class="form-group">
@@ -28,12 +28,12 @@
 
             <div class="form-group">
                 <label for="fullname">Name:</label>
-                <input type="text" name="fullname" value="{{ fullname }}" required/>
+                <input type="text" name="fullname" value="Andrew DeOrio" required/>
             </div>
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" name="email" value="{{ uemail }}" required/>
+                <input type="text" name="email" value="" required/>
             </div>
 
             <input type="hidden" name="operation" value="edit_account"/>

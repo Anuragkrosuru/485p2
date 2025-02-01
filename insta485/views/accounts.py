@@ -4,6 +4,7 @@ import insta485
 import hashlib
 import uuid
 import os
+from werkzeug.utils import secure_filename
 
 @insta485.app.route("/accounts/login/", methods=["GET"])
 def show_login():
@@ -14,6 +15,29 @@ def show_login():
 
     return flask.render_template("login.html")
 
+@insta485.app.route("/accounts/edit/", methods=["GET"])
+def show_edit_account():
+    """Display account edit page."""
+    if "logname" not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+
+    # Get current user's info
+    connection = insta485.model.get_db()
+    logname = flask.session["logname"]
+
+    cur = connection.execute(
+        "SELECT fullname, email, filename FROM users WHERE username = ?",
+        (logname,)
+    )
+    user = cur.fetchone()
+
+    context = {
+        "logname": logname,
+        "user_img_url": user["filename"],
+        "fullname": user["fullname"],
+        "email": user["email"]
+    }
+    return flask.render_template("edit.html", **context)
 
 @insta485.app.route("/accounts/create/", methods=["GET"])
 def show_create_account():
@@ -25,7 +49,7 @@ def show_delete_account():
     """Display account deletion confirmation."""
     if "logname" not in flask.session:
         return flask.redirect(flask.url_for("show_login"))
-    return flask.render_template("delete.html")
+    return flask.render_template("delete.html", logname=flask.session["logname"])
 
 
 @insta485.app.route("/accounts/", methods=["POST"])
@@ -145,6 +169,100 @@ def accounts_operation():
         
         flask.session.clear()
         return flask.redirect(target_url) 
+    
+    elif operation == "edit_account":
+        if "logname" not in flask.session:
+            flask.abort(403)
+            
+        username = flask.session["logname"]
+        new_name = flask.request.form["fullname"]
+        new_email = flask.request.form["email"]
+
+        # Handle file upload if provided
+        if 'file' in flask.request.files and flask.request.files['file'].filename:
+            fileobj = flask.request.files['file']
+            
+            # Create unique filename
+            stem = uuid.uuid4().hex
+            suffix = os.path.splitext(fileobj.filename)[1].lower()
+            filename = f"{stem}{suffix}"
+            
+            # Get old filename
+            cur = connection.execute(
+                "SELECT filename FROM users WHERE username = ?",
+                (username,)
+            )
+            old_filename = cur.fetchone()['filename']
+            
+            # Save new file
+            path = insta485.app.config["UPLOAD_FOLDER"]/filename
+            fileobj.save(path)
+            
+            # Delete old file if it wasn't default
+            if old_filename != 'default.jpg':
+                old_path = insta485.app.config["UPLOAD_FOLDER"]/old_filename
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            
+            # Update database with new filename
+            connection.execute(
+                "UPDATE users SET filename = ?, fullname = ?, email = ? "
+                "WHERE username = ?",
+                (filename, new_name, new_email, username)
+            )
+        else:
+            # Update without changing photo
+            connection.execute(
+                "UPDATE users SET fullname = ?, email = ? WHERE username = ?",
+                (new_name, new_email, username)
+            )
+
+        connection.commit()
+        return flask.redirect(target_url)
+
+    elif operation == "update_password":
+        username = flask.session["logname"]
+        old_password = flask.request.form["password"]
+        new_password1 = flask.request.form["new_password1"]
+        new_password2 = flask.request.form["new_password2"]
+       
+        # check if old password is right 
+        row = connection.execute(
+            "SELECT password FROM users WHERE username = ?",
+            (username, )
+        ).fetchone()
+
+        if row is None:
+            flask.abort(403, "Username does not exist")
+
+        password_db_string = row["password"]
+        algorithm, salt, db_hash = password_db_string.split("$")
+
+        compare_hash_obj = hashlib.new(algorithm)
+        compare_hash_obj.update((salt + old_password).encode("utf-8"))
+        compare_calc_hash = compare_hash_obj.hexdigest()
+
+        if compare_calc_hash != db_hash:
+            flask.abort(403, "Incorrect password")
+        
+        # check if passwords are matching 
+        if new_password1 != new_password2:
+            flask.abort(403, "Passwords do not match")
+        
+        # set new password 
+        salt = uuid.uuid4().hex
+        new_hash_obj = hashlib.new(algorithm)
+        new_hash_obj.update((salt + new_password1).encode("utf-8"))
+        new_db_hash = new_hash_obj.hexdigest()
+        new_password_db_string = f"{algorithm}${salt}${new_db_hash}"
+
+        connection.execute(
+            "UPDATE users SET password = ? WHERE username = ?",
+            (new_password_db_string, username)
+        )
+        connection.commit()
+
+        return flask.redirect(target_url)
 
     else:
         flask.abort(400, f"Bad operation '{operation}'")
@@ -157,3 +275,36 @@ def show_logout():
     
     flask.session.clear()
     return flask.redirect(flask.url_for("show_login"))
+
+# @insta485.app.route("/accounts/edit/", methods=["GET"])
+# def show_edit():
+#     """Display the login page or redirect if already logged in."""
+#     # If "logname" in session, user is already logged in -> redirect
+#     if "logname" not in flask.session:
+#         flask.abort(403)
+
+#     # get logname from usertable 
+#     connection = insta485.model.get_db()
+#     cur = connection.execute(
+#         "SELECT * FROM users WHERE username = ?", 
+#         (flask.session["logname"], )
+#     )
+#     user = dict(cur.fetchone())
+#     user["filename"] = flask.url_for('serve_upload', filename=user["filename"])
+
+#     context = {"user": user}
+#     return flask.render_template("edit.html", **context)
+    
+@insta485.app.route('/accounts/auth/')
+def show_auth():
+    """Return 200 if user is logged in, 403 if not."""
+    if "logname" not in flask.session:
+        flask.abort(403)
+    return '', 200 
+    
+@insta485.app.route("/accounts/password/", methods=["GET"])
+def show_password():
+    """Display password change page."""
+    if "logname" not in flask.session:
+        return flask.redirect(flask.url_for("show_login"))
+    return flask.render_template("password.html", logname=flask.session["logname"])

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <a href="/"> <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr/>
+
+    <div class="photo">
+        <a href="/users/awdeorio/">
+        <img src="&lt;sqlite3.Row object at 0x1072de800&gt;" height="50" width="50" alt="profile picture"/>
+         awdeorio </a>
+        <a href="/posts/1/"> just now </a>
+        <br/>
+        <img src="/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg" alt="post image"/>
+
+        
+            <p> 3 likes </p>
+        
+        
+        
+            <p> <a href="/users/jflinn/"><strong> jflinn </strong></a> Walking the plank #chickensofinstagram </p>
+            
+        
+            <p> <a href="/users/awdeorio/"><strong> awdeorio </strong></a> This was after trying to teach them to do a #crossword </p>
+            
+                <!-- delete button -->
+                <form action="/comments/?target=/posts/1/" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="operation" value="delete"/>
+                    <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+                    <input type="submit" name="uncomment" value="delete"/>
+                </form>
+            
+        
+
+        <!-- like/unlike button -->
+        
+            <!-- unlike button -->
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="</likes/?target=/posts/1/" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="unlike"/>
+                <input type="hidden" name="postid" value="1"/>
+                <input type="submit" name="unlike" value="unlike"/>
+            </form>
+        
+
+        <!-- comment button  -->
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="/comments/?target=/posts/1/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="create"/>
+            <input type="hidden" name="postid" value="1"/>
+            <input type="text" name="text" required/>
+            <input type="submit" name="comment" value="comment"/>
+        </form>
+
+
+        
+            <form action="</posts/>?target=/user/awdeorio" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="delete"/>
+                <input type="hidden" name="postid" value="1"/>
+                <input type="submit" name="delete" value="delete this post"/>
+            </form>
+        
+    </div>
+</body>
+</html>

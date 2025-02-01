@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <a href="/"> <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr/>
+
+    <div class="photo">
+        <a href="/users/jag/">
+        <img src="&lt;sqlite3.Row object at 0x1073219c0&gt;" height="50" width="50" alt="profile picture"/>
+         jag </a>
+        <a href="/posts/4/"> just now </a>
+        <br/>
+        <img src="/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg" alt="post image"/>
+
+        
+            <p> 0 likes </p>
+        
+        
+        
+            <p> <a href="/users/jag/"><strong> jag </strong></a> Saw this on the diag yesterday! </p>
+            
+        
+
+        <!-- like/unlike button -->
+        
+            <!-- like button -->
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="/likes/?target=/posts/4/" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="like"/>
+                <input type="hidden" name="postid" value="4"/>
+                <input type="submit" name="like" value="like"/>
+            </form>    
+        
+
+        <!-- comment button  -->
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="/comments/?target=/posts/4/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="create"/>
+            <input type="hidden" name="postid" value="4"/>
+            <input type="text" name="text" required/>
+            <input type="submit" name="comment" value="comment"/>
+        </form>
+
+
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <a href="/">
+        <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175" />
+    </a>
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr />
+
+    <h1>awdeorio</h1>
+
+    
+    <!-- Edit profile -->
+    <a href="/accounts/edit/"> <strong> Edit profile </strong></a>
+
+    <!-- Form to log out -->
+    <form action="/accounts/?target=/accounts/login/" method="post"
+        enctype="multipart/form-data">
+        <input type="hidden" name="operation" value="logout">
+        <input type="submit" name="logout" value="Logout">
+    </form>
+
+    <!-- Create post form -->
+    <form action="/posts/?target=/users/awdeorio/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <input type="hidden" name="operation" value="create">
+        <input type="submit" name="create_post" value="Upload new post">
+    </form>
+    
+
+    <p>
+        2  posts 
+        <a href="/users/awdeorio/followers/">
+            <strong>2  followers </strong>
+        </a>
+        <a href="/users/awdeorio/following/">
+            <strong>2 following </strong>
+        </a>
+    </p>
+    <p> Andrew DeOrio </p>
+
+    <!-- Iterate through each post and display it -->
+    
+    <div class="post">
+        <a href="/posts/1/">
+            <img src="/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg" alt="post photo" />
+        </a>
+        
+        <!-- Delete post form for each post -->
+        <form action="/posts/?target=/users/awdeorio/" method="post">
+            <input type="hidden" name="operation" value="delete">
+            <input type="hidden" name="postid" value="1">
+            <input type="submit" value="Delete Post">
+        </form>
+        
+    </div>
+    
+    <div class="post">
+        <a href="/posts/3/">
+            <img src="/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg" alt="post photo" />
+        </a>
+        
+        <!-- Delete post form for each post -->
+        <form action="/posts/?target=/users/awdeorio/" method="post">
+            <input type="hidden" name="operation" value="delete">
+            <input type="hidden" name="postid" value="3">
+            <input type="submit" value="Delete Post">
+        </form>
+        
+    </div>
+    
+</body>
+
+</html>

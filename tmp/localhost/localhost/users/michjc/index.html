@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <a href="/">
+        <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175" />
+    </a>
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr />
+
+    <h1>michjc</h1>
+
+    
+    <p>following</p>
+    <!-- Following form -->
+    <form action="/following/?target=/users/michjc/" method="post" enctype="multipart/form-data">
+        <input type="submit" name="unfollow" value="unfollow" />
+        <input type="hidden" name="username" value="michjc" />
+        <input type="hidden" name="operation" value="unfollow" />
+    </form>
+    
+
+    <p>
+        0  posts 
+        <a href="/users/michjc/followers/">
+            <strong>3  followers </strong>
+        </a>
+        <a href="/users/michjc/following/">
+            <strong>2 following </strong>
+        </a>
+    </p>
+    <p> Michael Cafarella </p>
+
+    <!-- Iterate through each post and display it -->
+    
+</body>
+
+</html>

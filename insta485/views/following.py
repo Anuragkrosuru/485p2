@@ -52,7 +52,7 @@ def show_following(user_url_slug):
     # Add URL prefix to user images
     for follow in following:
         follow['user_img_url'] = flask.url_for(
-            'show_file', 
+           "serve_upload", 
             filename=follow['user_img_url']
         )
 

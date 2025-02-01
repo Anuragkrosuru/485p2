@@ -8,3 +8,5 @@ from insta485.views.followers import show_followers
 from insta485.views.following import show_following, handle_following
 from insta485.views.explore import explore
 from insta485.views import comments
+from insta485.views.newpost import create_or_delete_post as create_post
+

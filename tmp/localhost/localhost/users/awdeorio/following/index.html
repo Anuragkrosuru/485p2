@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <a href="/"> <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr/>
+
+    <h1>Following</h1>
+    
+        <div>
+            <a href="/users/jflinn/">
+                <img src="/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg" alt="profile picture">
+                jflinn
+            </a>
+            
+                following
+                <form action="/following/?target=/users/awdeorio/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="jflinn"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+            
+        </div>
+    
+        <div>
+            <a href="/users/michjc/">
+                <img src="/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg" alt="profile picture">
+                michjc
+            </a>
+            
+                following
+                <form action="/following/?target=/users/awdeorio/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="michjc"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                </form>
+            
+        </div>
+    
+</body>
+</html>

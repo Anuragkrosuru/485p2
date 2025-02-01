@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> insta485 </title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <a href="/"> <img src="/static/images/logo.png" alt="Instagram Logo" height="100" width="175"/> </a>  
+    Insta 485
+    <a href="/explore/"> Explore </a>
+    <a href="/users/awdeorio/"> awdeorio </a>
+    <hr/>
+
+    <div class="photo">
+        <a href="/users/jflinn/">
+        <img src="&lt;sqlite3.Row object at 0x10734c760&gt;" height="50" width="50" alt="profile picture"/>
+         jflinn </a>
+        <a href="/posts/2/"> just now </a>
+        <br/>
+        <img src="/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg" alt="post image"/>
+
+        
+            <p> 2 likes </p>
+        
+        
+        
+            <p> <a href="/users/awdeorio/"><strong> awdeorio </strong></a> Sick #crossword </p>
+            
+                <!-- delete button -->
+                <form action="/comments/?target=/posts/2/" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="operation" value="delete"/>
+                    <input type="hidden" name="commentid" value="<FIXME_COMMENT_ID_HERE>"/>
+                    <input type="submit" name="uncomment" value="delete"/>
+                </form>
+            
+        
+
+        <!-- like/unlike button -->
+        
+            <!-- unlike button -->
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="</likes/?target=/posts/2/" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="operation" value="unlike"/>
+                <input type="hidden" name="postid" value="2"/>
+                <input type="submit" name="unlike" value="unlike"/>
+            </form>
+        
+
+        <!-- comment button  -->
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="/comments/?target=/posts/2/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="operation" value="create"/>
+            <input type="hidden" name="postid" value="2"/>
+            <input type="text" name="text" required/>
+            <input type="submit" name="comment" value="comment"/>
+        </form>
+
+
+        
+    </div>
+</body>
+</html>
